@@ -58,3 +58,4 @@ def closeConnection(conn):
 def closeAll(conn, cursor):
   closeCursor(cursor)
   closeConnection(conn)
+  print('Cursor and connection closed!')

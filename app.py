@@ -17,10 +17,10 @@ def hackerLogin():
         print('Unable to close cursor, Closing DB connection, please retry!')
         db.closeConnection(conn)
         break
-      cursor.execute("SELECT h.id FROM hackers h WHERE h.alias = ? AND h.password = ?", [
+      cursor.execute("SELECT h.id, h.alias FROM hackers h WHERE h.alias = ? AND h.password = ?", [
           alias, password])
-      alias_id = cursor.fetchone()
-      if(alias_id == None):
+      alias_id = cursor.fetchall()
+      if(alias_id == []):
         print('Invalid username or password, try again!')
         db.closeAll(cursor, conn)
         continue
@@ -31,4 +31,38 @@ def hackerLogin():
     return alias_id
 
 
-hackerLogin()
+def loggedInOptions(h_info):
+  while True:
+    print(f'Thanks for logging in {h_info[0][1]}')
+    print('What would you like to do? \n 1: Make an exploit \n 2: See my exploits \n 3: See other hackers exploits \n 4: Quit!')
+    selection = int(input(f'{h_info[0][1]}, Make a selection: '))
+    if(selection == 1):
+      # *make a new exploit!
+      print('hi')
+    elif(selection == 4):
+      break
+
+
+def app():
+  while True:
+    #* ----------- Login ----------- *#
+    print('Welcome to CLI-Social-Media! \n 1: Login \n 2: Quit')
+    try:
+      selection = int(input('What would you like to do? '))
+      if(selection == 1):
+        hacker = hackerLogin()
+        loggedInOptions(hacker)
+        # for h_id, alias in hacker:
+        #   print(f'ID: {h_id}, Alias: {alias}')
+
+      elif(selection == 2):
+        print('Quitting App...')
+        break
+      elif(selection > 2 or selection <= 0):
+        print('Please enter a valid selection')
+    except:
+      print('Error with user input!')
+      traceback.print_exc()
+
+
+app()
