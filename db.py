@@ -53,3 +53,8 @@ def closeConnection(conn):
     print("Error closing connection to DB!")
     traceback.print_exc()
     return False
+
+
+def closeAll(conn, cursor):
+  closeCursor(cursor)
+  closeConnection(conn)
