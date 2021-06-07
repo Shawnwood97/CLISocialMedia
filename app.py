@@ -28,7 +28,6 @@ def hackerLogin():
     except:
       print('Error with login!')
     db.closeAll(cursor, conn)
-    print(alias_id)
     return alias_id
 
 
@@ -48,10 +47,35 @@ def loggedInOptions(h_info):
         print('Unable to close cursor, Closing DB connection, please retry!')
         db.closeConnection(conn)
         break
-      exploit = Exploit(
-          input(f'{h_info[0][1]}, Enter the content of your exploit: '), h_info[0][0])
-      exploit.createExploit(conn, cursor)
+      # calling class function to create an exploit
+      Exploit(h_info[0][0]).createExploit(conn, cursor, input(
+          f'{h_info[0][1]}, Enter the content of your exploit: '))
       db.closeAll(cursor, conn)
+
+    elif(selection == 2):
+      conn = db.openConnection()
+      if(conn == None):
+        print('No connection to database, closing your connection!')
+        break
+      cursor = db.openCursor(conn)
+      if(cursor == None):
+        print('Unable to close cursor, Closing DB connection, please retry!')
+        db.closeConnection(conn)
+        break
+        # calling class function for getting others exploits
+      Exploit(h_info[0][0]).getOwnExploits(cursor)
+    elif(selection == 3):
+      conn = db.openConnection()
+      if(conn == None):
+        print('No connection to database, closing your connection!')
+        break
+      cursor = db.openCursor(conn)
+      if(cursor == None):
+        print('Unable to close cursor, Closing DB connection, please retry!')
+        db.closeConnection(conn)
+        break
+        # calling class function for getting others exploits
+      Exploit(h_info[0][0]).getOthersExploits(cursor)
     elif(selection == 4):
       break
 
@@ -65,8 +89,6 @@ def app():
       if(selection == 1):
         hacker = hackerLogin()
         loggedInOptions(hacker)
-        # for h_id, alias in hacker:
-        #   print(f'ID: {h_id}, Alias: {alias}')
 
       elif(selection == 2):
         print('Quitting App...')
