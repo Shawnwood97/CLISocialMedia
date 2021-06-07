@@ -19,13 +19,30 @@ def openConnection():
     return None
 
 
-def openCursor(conn):
+def closeConnection(conn):
+  if(conn == None):
+    return True
   try:
-    return conn.cursor()
+    conn.close()
+    return True
 
   except:
-    print("Error opening cursor on DB!")
+    print("Error closing connection to DB!")
     traceback.print_exc()
+    return False
+
+
+def openCursor(conn):
+  # ! Not sure I need this here since the except block will close it!?
+  # if(conn == None):
+  #   print('No connection to database, closing your connection!')
+  #   return None
+  try:
+    return conn.cursor()
+  except:
+    print("Error opening cursor on DB, closing connection!")
+    traceback.print_exc()
+    closeConnection(conn)
     return None
 
 
@@ -38,19 +55,6 @@ def closeCursor(cursor):
 
   except:
     print("Error closing cursor on DB!")
-    traceback.print_exc()
-    return False
-
-
-def closeConnection(conn):
-  if(conn == None):
-    return True
-  try:
-    conn.close()
-    return True
-
-  except:
-    print("Error closing connection to DB!")
     traceback.print_exc()
     return False
 

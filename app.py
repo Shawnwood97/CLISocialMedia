@@ -10,14 +10,12 @@ def hackerLogin():
       alias = input('Enter your alias: ')
       password = input('Enter your password: ')
       conn = db.openConnection()
-      if(conn == None):
-        print('No connection to database, closing your connection!')
-        break
       cursor = db.openCursor(conn)
-      if(cursor == None):
-        print('Unable to close cursor, Closing DB connection, please retry!')
-        db.closeConnection(conn)
-        break
+      # ! refactored, leaving here for testing
+      # if(cursor == None):
+      #   print('Unable to close cursor, Closing DB connection, please retry!')
+      #   db.closeConnection(conn)
+      #   break
       cursor.execute("SELECT h.id, h.alias FROM hackers h WHERE h.alias = ? AND h.password = ?", [
           alias, password])
       alias_id = cursor.fetchall()
@@ -39,14 +37,16 @@ def loggedInOptions(h_info):
     if(selection == 1):
       # *make a new exploit!
       conn = db.openConnection()
-      if(conn == None):
-        print('No connection to database, closing your connection!')
-        break
+      # ! refactored, leaving here for testing
+      # if(conn == None):
+      #   print('No connection to database, closing your connection!')
+      #   break
       cursor = db.openCursor(conn)
-      if(cursor == None):
-        print('Unable to close cursor, Closing DB connection, please retry!')
-        db.closeConnection(conn)
-        break
+      # ! refactored, leaving here for testing
+      # if(cursor == None):
+      #   print('Unable to close cursor, Closing DB connection, please retry!')
+      #   db.closeConnection(conn)
+      #   break
       # calling class function to create an exploit
       Exploit(h_info[0][0]).createExploit(conn, cursor, input(
           f'{h_info[0][1]}, Enter the content of your exploit: '))
@@ -54,27 +54,31 @@ def loggedInOptions(h_info):
 
     elif(selection == 2):
       conn = db.openConnection()
-      if(conn == None):
-        print('No connection to database, closing your connection!')
-        break
+      # ! refactored, leaving here for testing
+      # if(conn == None):
+      #   print('No connection to database, closing your connection!')
+      #   break
       cursor = db.openCursor(conn)
-      if(cursor == None):
-        print('Unable to close cursor, Closing DB connection, please retry!')
-        db.closeConnection(conn)
-        break
-        # calling class function for getting others exploits
+      # ! refactored, leaving here for testing
+      # if(cursor == None):
+      #   print('Unable to close cursor, Closing DB connection, please retry!')
+      #   db.closeConnection(conn)
+      #   break
+      # calling class function for getting others exploits
       Exploit(h_info[0][0]).getOwnExploits(cursor)
     elif(selection == 3):
       conn = db.openConnection()
-      if(conn == None):
-        print('No connection to database, closing your connection!')
-        break
+      # ! refactored, leaving here for testing
+      # if(conn == None):
+      #   print('No connection to database, closing your connection!')
+      #   break
       cursor = db.openCursor(conn)
-      if(cursor == None):
-        print('Unable to close cursor, Closing DB connection, please retry!')
-        db.closeConnection(conn)
-        break
-        # calling class function for getting others exploits
+      # ! refactored, leaving here for testing
+      # if(cursor == None):
+      #   print('Unable to close cursor, Closing DB connection, please retry!')
+      #   db.closeConnection(conn)
+      #   break
+      # calling class function for getting others exploits
       Exploit(h_info[0][0]).getOthersExploits(cursor)
     elif(selection == 4):
       break
