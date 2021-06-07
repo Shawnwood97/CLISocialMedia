@@ -1,3 +1,4 @@
+from exploit import Exploit
 import traceback
 import db
 # import mariadb
@@ -34,11 +35,23 @@ def hackerLogin():
 def loggedInOptions(h_info):
   while True:
     print(f'Thanks for logging in {h_info[0][1]}')
-    print('What would you like to do? \n 1: Make an exploit \n 2: See my exploits \n 3: See other hackers exploits \n 4: Quit!')
+    print('What would you like to do? \n 1: Make an exploit \n 2: See my exploits \n 3: See other hackers exploits \n 4: Logout!')
     selection = int(input(f'{h_info[0][1]}, Make a selection: '))
     if(selection == 1):
       # *make a new exploit!
-      print('hi')
+      conn = db.openConnection()
+      if(conn == None):
+        print('No connection to database, closing your connection!')
+        break
+      cursor = db.openCursor(conn)
+      if(cursor == None):
+        print('Unable to close cursor, Closing DB connection, please retry!')
+        db.closeConnection(conn)
+        break
+      exploit = Exploit(
+          input(f'{h_info[0][1]}, Enter the content of your exploit: '), h_info[0][0])
+      exploit.createExploit(conn, cursor)
+      db.closeAll(cursor, conn)
     elif(selection == 4):
       break
 
