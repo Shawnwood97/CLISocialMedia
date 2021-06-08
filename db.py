@@ -42,7 +42,6 @@ def openCursor(conn):
   except:
     print("Error opening cursor on DB, closing connection!")
     traceback.print_exc()
-    closeConnection(conn)
     return None
 
 
